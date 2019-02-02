@@ -9,7 +9,6 @@ namespace Advanced_Lesson_7_Delegates
     public class Practice
     {
         delegate double Operator(int Val1, int Val2);
-        public delegate string Formatter(string str);
         /// <summary>
         /// L7.P1. Переписать консольный калькулятор с использованием делегатов. 
         /// Используйте switch/case, чтоб определить какую математическую функцию.
@@ -21,16 +20,20 @@ namespace Advanced_Lesson_7_Delegates
 
             Operator @operator = null;
 
-            switch(Console.ReadLine())
+            switch (Console.ReadLine())
             {
                 case "+":
                     {
-                        @operator = Sum;
+                        @operator = delegate (int var1, int var2)
+                        {
+                            return var1 + var2;
+                        };
+
                         break;
                     }
                 case "-":
                     {
-                        @operator = Minus;
+                        @operator = (a, b) => a - b; //лямбда выражение
                         break;
                     }
                 case "*":
@@ -46,11 +49,6 @@ namespace Advanced_Lesson_7_Delegates
             }
 
             Console.WriteLine(@operator(ch1, ch2));
-        }
-
-        public static double Sum(int val1, int val2)
-        {
-            return val1 + val2;
         }
 
         public static double Minus(int val1, int val2)
@@ -78,7 +76,25 @@ namespace Advanced_Lesson_7_Delegates
         /// </summary>
         public static void L7P2_StringFormater()
         {
+            string[] str = { "sde1312rfw _ eeeacs  acvacv", "eeee  eee  eeeeeeee ee", "1edf  gf  fwq3" };
+            
+            var result = str.Format(UpperString).Format(ChangeChar);
 
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
         }
+
+        public static string UpperString(string str)
+        {
+            return str.ToUpper();
+        }
+
+        public static string ChangeChar(string str)
+        {
+            return str.Replace(' ', '_');
+        }
+
     }
 }
